@@ -10,14 +10,14 @@ model_path = "C:\\Users\\hojbj\\Documents\\Git Repositories\\img_recognition_ser
 model = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
 # read the desired image
-image = cv2.imread("father-and-daughter.jpg")
+image = cv2.imread("oliver.png")
 # get width and height of the image
 h, w = image.shape[:2]
 # gaussian blur kernel size depends on width and height of original image
 kernel_width = (w // 7) | 1
 kernel_height = (h // 7) | 1
 # preprocess the image: resize and performs mean subtraction
-blob = cv2.dnn.blobFromImage(image, 1.0, (300, 300), (104.0, 177.0, 123.0))
+blob = cv2.dnn.blobFromImage(image, 1.0, (600, 600), (104.0, 177.0, 123.0))
 # set the image into the input of the neural network
 model.setInput(blob)
 # perform inference and get the result
