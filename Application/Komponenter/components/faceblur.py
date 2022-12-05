@@ -38,5 +38,8 @@ for i in range(0, output.shape[0]):
         # put the blurred face into the original image
         image[start_y: end_y, start_x: end_x] = face
 cv2.imshow("image", image)
+
+
 cv2.waitKey(0)
 cv2.imwrite("image_blurred.jpg", image)
+
