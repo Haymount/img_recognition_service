@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 import uvicorn
 from starlette.responses import RedirectResponse
 
+from application.components import faceblur, read_imagefile
 
 
 app = FastAPI()
