@@ -1,1 +1,1 @@
-from .faceblur.serve_model import predict, read_imagefile
+from .faceblur.facegausblur import faceblur, read_imagefile

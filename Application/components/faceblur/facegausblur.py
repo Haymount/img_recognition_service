@@ -1,16 +1,27 @@
 import cv2
 import numpy as np
+import os
+
+from io import BytesIO
+# https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt
+prototxt_path = os.path.join(os.path.dirname(__file__), "weights\\deploy.prototxt.txt")
+# https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel 
+model_path = os.path.join(os.path.dirname(__file__), "weights\\res10_300x300_ssd_iter_140000_fp16.caffemodel")
 
 # https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt
-prototxt_path = "C:\\Users\\hojbj\\Documents\\Git Repositories\\img_recognition_service\\weights\\deploy.prototxt.txt"
+#prototxt_path = "c:\\Users\\hojbj\\Documents\\Git Repositories\\img_recognition_service-1\\application\\components\\faceblur\\weights\\deploy.prototxt.txt"
 # https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel 
-model_path = "C:\\Users\\hojbj\\Documents\\Git Repositories\\img_recognition_service\\weights\\res10_300x300_ssd_iter_140000_fp16.caffemodel"
+#model_path = "c:\\Users\\hojbj\\Documents\\Git Repositories\\img_recognition_service-1\\application\\components\\faceblur\\weights\\res10_300x300_ssd_iter_140000_fp16.caffemodel"
+
 
 # load Caffe model
 model = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
+image_path = os.path.join(os.path.dirname(__file__), "oliver.png")
+
+
 # read the desired image
-image = cv2.imread("oliver.png")
+image = cv2.imread(image_path)
 # get width and height of the image
 h, w = image.shape[:2]
 # gaussian blur kernel size depends on width and height of original image
@@ -42,4 +53,3 @@ cv2.imshow("image", image)
 
 cv2.waitKey(0)
 cv2.imwrite("image_blurred.jpg", image)
-
