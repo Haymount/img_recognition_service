@@ -4,20 +4,15 @@ import os
 
 from io import BytesIO
 # https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt
-prototxt_path = os.path.join(os.path.dirname(__file__), "weights\\deploy.prototxt.txt")
+prototxt_path = os.path.join(os.path.dirname(__file__), "weights/deploy.prototxt.txt")
 # https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel 
-model_path = os.path.join(os.path.dirname(__file__), "weights\\res10_300x300_ssd_iter_140000_fp16.caffemodel")
-
-# https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt
-#prototxt_path = "c:\\Users\\hojbj\\Documents\\Git Repositories\\img_recognition_service-1\\application\\components\\faceblur\\weights\\deploy.prototxt.txt"
-# https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel 
-#model_path = "c:\\Users\\hojbj\\Documents\\Git Repositories\\img_recognition_service-1\\application\\components\\faceblur\\weights\\res10_300x300_ssd_iter_140000_fp16.caffemodel"
+model_path = os.path.join(os.path.dirname(__file__), "weights/res10_300x300_ssd_iter_140000_fp16.caffemodel")
 
 
 # load Caffe model
 model = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
-image_path = os.path.join(os.path.dirname(__file__), "oliver.png")
+image_path = os.path.join(os.path.dirname(__file__), "father-and-daughter.jpg")
 
 
 # read the desired image
