@@ -1,9 +1,8 @@
 import cv2
 import numpy as np
 import os
-from io import BytesIO
-from PIL import Image
 
+#Her defineres stien til datasættet og dens prototext. os gør at den finder stien til hvor den her py fil er placeret.
 prototxt_path = os.path.join(os.path.dirname(__file__), "weights/deploy.prototxt.txt") 
 model_path = os.path.join(os.path.dirname(__file__), "weights/res10_300x300_ssd_iter_140000_fp16.caffemodel")
 
@@ -14,17 +13,13 @@ def load_model():
     model = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
     return model
 
-
-
-#image_path = os.path.join(os.path.dirname(__file__), "father-and-daughter.jpg")
-
-def faceblur(image: Image.Image):
+#faceblur får image fra main, efter det er blevet konverteret fra json i read_imagefile
+def faceblur(image):
     global model
+
     if model is None:
         model = load_model()
 
-    # read the desired image
-    #image = cv2.imread(image_path)
     # get width and height of the image
     h, w = image.shape[:2]
     # gaussian blur kernel size depends on width and height of original image
@@ -52,13 +47,23 @@ def faceblur(image: Image.Image):
             # put the blurred face into the original image
             image[start_y: end_y, start_x: end_x] = face
     
+
+    #Her bliver billedet konverteret til json
+    img_str = cv2.imencode('.jpg', image)[1].tostring()
+    type(img_str)
+    'str'
+    #print("end of faceblur")
+    
+
+    return img_str
+
+def read_imagefile(file):
+    #Her bliver filen konverteret fra json til array form, som cv2 kan forstå
+    print(file)
+    nparr = np.fromstring(file, np.uint8)
+    
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    print("end of read_imagefile")
+
+
     return image
-
-def read_imagefile(file) -> Image.Image:
-    image = Image.open(BytesIO(file))
-    return image
-
-
-#cv2.imshow("image", image)
-#cv2.waitKey(0)
-#cv2.imwrite("image_blurred.jpg", image)

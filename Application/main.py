@@ -1,4 +1,5 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Response
+from fastapi.responses import StreamingResponse
 import uvicorn
 from starlette.responses import RedirectResponse
 
@@ -18,11 +19,14 @@ async def gausblur(file: UploadFile = File(...)):
     extension = file.filename.split(".")[-1] in ("jpg", "jpeg", "png")
     if not extension:
         return "Image must be jpg or png format!"
-   
+    
     image = read_imagefile(await file.read())
-    faceblurring = faceblur(image)
 
-    return faceblurring
+    print("linje 23")
+    faceblurring = faceblur(image)
+    print("linje 25")
+    print(faceblurring)
+    return Response(content=faceblurring, media_type="image/jpg")
 
 
 
