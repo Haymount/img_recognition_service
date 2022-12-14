@@ -1,1 +1,1 @@
-from .faceblur.facegausblur import faceblur, read_imagefile
+from .faceblur.facegausblur import faceblur, bytearr_to_nparr, nparr_to_bytearr

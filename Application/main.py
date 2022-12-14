@@ -1,11 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Response
-from fastapi.responses import StreamingResponse
+from starlette.responses import RedirectResponse    
+from components import faceblur, bytearr_to_nparr, nparr_to_bytearr
 import uvicorn
-from starlette.responses import RedirectResponse
-
-
-from components import faceblur, read_imagefile
-
 
 app = FastAPI()
 
@@ -13,20 +9,28 @@ app = FastAPI()
 async def index():
     return RedirectResponse(url="/docs")
 
-
+#Dette er vores faceblur endpoint
 @app.post('/image/gausblur')
 async def gausblur(file: UploadFile = File(...)):
-    extension = file.filename.split(".")[-1] in ("jpg", "jpeg", "png")
+    #Her tjekkes det om den content der bliver modtaget er den rigtige type
+    extension = file.filename.split(".")[-1] in ("jpg", "jpeg")
     if not extension:
         return "Image must be jpg or png format!"
     
-    image = read_imagefile(await file.read())
+    #Her læses filen, og konverteres fra et byte array-
+    #til et numpy array, som faceblur() kan modtage
+    image = bytearr_to_nparr(await file.read())
 
-    print("linje 23")
-    faceblurring = faceblur(image)
-    print("linje 25")
-    print(faceblurring)
-    return Response(content=faceblurring, media_type="image/jpg")
+    #Her kalder vi den funktion som skal blur billedet.
+    faceblurred = faceblur(image)
+
+    #Her konverteres billedet tilbage til et byte array
+    faceblurred_str = nparr_to_bytearr(faceblurred)
+
+
+    #Her returnerer vi det anonymiseret billede til klienten- 
+    #-i form af en json string. faceblur() returnerer kun i jpg format.
+    return Response(content=faceblurred_str, media_type="image/jpg")
 
 
 
