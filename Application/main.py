@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Response
 from starlette.responses import RedirectResponse    
-from components import faceblur, bytearr_to_nparr, nparr_to_bytearr
+from components import faceblur, bytestr_to_nparr, nparr_to_bytestr
 import uvicorn
 
 app = FastAPI()
@@ -19,7 +19,7 @@ async def gausblur(file: UploadFile = File(...)):
     
     #Her læses filen, og konverteres fra et byte array-
     #til et numpy array, som faceblur() kan modtage
-    image = bytearr_to_nparr(await file.read())
+    image = bytestr_to_nparr(await file.read())
 
     #Her kalder vi den funktion som skal blur billedet.
     faceblurred = faceblur(image)

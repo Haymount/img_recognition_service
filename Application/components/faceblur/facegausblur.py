@@ -53,7 +53,7 @@ def faceblur(image):
 
     return image
 
-def nparr_to_bytearr(image):
+def nparr_to_bytestr(image):
     #Her bliver billedet konverteret til byte array igen
     img_str = cv2.imencode('.jpg', image)[1].tostring()
     type(img_str)
@@ -63,7 +63,7 @@ def nparr_to_bytearr(image):
 
 
 
-def bytearr_to_nparr(file):
+def bytestr_to_nparr(file):
     #Her bliver filen konverteret fra byte array til  numpy array
     nparr = np.fromstring(file, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
